@@ -1,4 +1,3 @@
-import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import App from './App';
@@ -6,7 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UserPage from './Component/UserPage';
-import GamePlay from './Component/GamePlay'
+import GamePlay from './Component/GamePlay';
+import Login from './Component/Login';
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
@@ -15,9 +15,12 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-            <Route path="/userpage" element={<UserPage/>}/>
-            <Route path="/room/:id" element={<GamePlay/>}/>
+          <Route path="/userpage" element={<UserPage />} />
+          <Route path="/room">
+            <Route path=":room" element={<GamePlay />} />
           </Route>
+          <Route path="/login" element={<Login />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </StrictMode>

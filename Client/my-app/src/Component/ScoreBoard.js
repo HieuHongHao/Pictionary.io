@@ -2,7 +2,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -10,10 +9,10 @@ import {
   TableContainer,
 } from '@chakra-ui/react';
 
-export default function ScoreBoard() {
+export default function ScoreBoard({ players }) {
   return (
     <TableContainer>
-      <Table variant={"striped"}>
+      <Table variant={'striped'}>
         <TableCaption>Score Board</TableCaption>
         <Thead>
           <Tr>
@@ -24,32 +23,16 @@ export default function ScoreBoard() {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>Hieu</Td>
-            <Td>100</Td>
+          {players?.map((player,id) => (
+            <Tr key={player ? player.username : id}>
+            <Td>{player.username}</Td>
+            <Td>{player.score}</Td>
             <Td isNumeric>1</Td>
-            <Td>Drawing</Td>
+            <Td>{player.role}</Td>
           </Tr>
-          <Tr>
-            <Td>Shrek</Td>
-            <Td>87</Td>
-            <Td isNumeric>2</Td>
-            <Td>Guessing</Td>
-          </Tr>
-          <Tr>
-            <Td>Trung</Td>
-            <Td>80</Td>
-            <Td isNumeric>3</Td>
-            <Td>Guessing</Td>
-          </Tr>
-          <Tr>
-            <Td>Trung</Td>
-            <Td>80</Td>
-            <Td isNumeric>3</Td>
-            <Td>Guessing</Td>
-          </Tr>
+          ))}
         </Tbody>
-    </Table>
+      </Table>
     </TableContainer>
   );
 }

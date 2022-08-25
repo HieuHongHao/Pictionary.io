@@ -11,28 +11,34 @@ import {
   Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useNavigate, useOutletContext } from 'react-router';
 
-export default function Login({ setIsLogedIn }) {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
+  const [setRoute] = useOutletContext();
+  const navigate = useNavigate();
+
   async function handelSubmit(e) {
     try {
       e.preventDefault();
       const response = await Api.post('/auth/login', {
         username,
         password,
-      })
+      });
       localStorage.setItem('auth', response.data.user.username);
-      setIsLogedIn(true);
+      setRoute({
+        link: '/userpage',
+        data: {},
+      });
+      navigate('/userpage');
     } catch (err) {
       console.log(err);
     }
   }
-  
+
   return (
     <Flex
       minH={'100vh'}
@@ -82,7 +88,7 @@ export default function Login({ setIsLogedIn }) {
                 }}
                 onClick={e => handelSubmit(e)}
               >
-                <Link to="/userpage">Sign in</Link>
+                Sign in
               </Button>
             </Stack>
           </Stack>

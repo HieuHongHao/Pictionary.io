@@ -4,31 +4,25 @@ import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Outlet, useNavigate} from 'react-router-dom';
-import Login from './Component/Login';
+import socket from './socket';
 
 function App() {
-  const [isLogedIn, setIsLogedIn] = useState(false);
-  const [route,setRoute] = useState({link:"/userpage", data:{}});
+  const [route,setRoute] = useState({link:"", data:{}});
   const navigate = useNavigate(); 
   useEffect(() => {
-      if (localStorage.getItem('auth')) {
-        const goToUserPage = () => navigate(`${route.link}`,{replace:true});
+      if(!localStorage.getItem("auth")){
+        const goToLoginPage = () => navigate("/login");  
+        goToLoginPage();
+      }else{
+        const goToUserPage = () => navigate("/userpage");
         goToUserPage();
       }
-  },[navigate,route]);
-  
-  if (!isLogedIn) {
-    return (
-      <ChakraProvider theme={theme}>
-        <Login setIsLogedIn={setIsLogedIn} />
-      </ChakraProvider>
-    );
-  }
+ },[]);
   
   return (
     <ChakraProvider theme={theme}>
       <ColorModeSwitcher />
-        <Outlet context={[setIsLogedIn,setRoute,route]}/>
+        <Outlet context={[setRoute,route,socket]}/>
     </ChakraProvider>
   );
 }
